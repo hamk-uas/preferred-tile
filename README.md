@@ -1,7 +1,5 @@
 # preferred-tile
 
-[Test change]
-
 A global segmentation where each segment specifies a Sentinel 2 tile from which to read data for any point within the segment. Some properties of the segmentation:
 * The segmentation is in WGS84 but can be reprojected to any other coordinate system. No seam artifacts will be introduced by the reprojection.
 * For each point within a segment, the specified Sentinel 2 tile has data (in a UTM zone projection) for at least a 9720 m x 9720 m north oriented square patch centered at that point. That means a square patch of at least 6873 m x 6873 m in any orientation, calculated from the 45 deg off-north worst case.
