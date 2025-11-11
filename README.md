@@ -1,4 +1,4 @@
-Note: this preliminary release subject to change.
+Note: this preliminary release is subject to changes.
 
 # preferred-tile
 
