@@ -14,7 +14,8 @@ Technical notes:
 * Segments are split at the antimeridian with id's appended by _0 and _1.
 
 Files:
-* `preferred_tiles.geojson` -- The segmentation as a GeoJSON. The properties:
+* `create_grid.ipynb` -- The Jupyter Notebook that creates the segmentation.
+* `preferred_tiles.geojson` -- The segmentation as a GeoJSON. Available after running `create_grid.ipynb`. The properties:
     * `"id"`: Id of the segment, for example `"01CCV"` if there is a one-to-one correspondence between the segment and the Sentinel 2 tile of the same name, or `"01CDH_1"` if multiple segments point to the same tile `"01CDH"`.
     * `"tile_id"`: The Sentinel 2 tile, for example `"01CCV"`
     * `"epsg"`: The EPSG number of the Sentinel 2 tile, as a string, for example `"32701"`, corresponding to a UTM zone.
