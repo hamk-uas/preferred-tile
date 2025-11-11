@@ -1,22 +1,24 @@
+Note: this preliminary release subject to change.
+
 # preferred-tile
 
-A global segmentation where each segment specifies a Sentinel 2 tile from which to read data for any point within the segment. Some properties of the segmentation:
-* The segmentation is in WGS84 but can be reprojected to any other coordinate system. No seam artifacts will be introduced by the reprojection.
-* For each point within a segment, the specified Sentinel 2 tile has data (in a UTM zone projection) for at least a 9720 m x 9720 m north oriented square patch centered at that point. That means a square patch of at least 6873 m x 6873 m in any orientation, calculated from the 45 deg off-north worst case.
-* For each point within a segment, the specified Sentinel 2 tile generally has a UTM projection that gives the smallest north alignment error. In rare cases, a small and redundant segment is eliminated by merging it into a larger segment that specifies an overlapping Sentinel 2 tile, slightly increasing the north alignment error within the eliminated segment.
+A global non-overlapping and exhaustive spatial partitioning or segmentation where each segment corresponds to a single Sentinel 2 tile. Properties:
+* The segmentation is in WGS84 but can be reprojected to any other coordinate system. No seam artifacts will be introduced by the reprojection, because neighboring segments share polygon vertices.
+* For each point within a segment, the corresponding Sentinel 2 tile has data for at least a roughly 9720 m x 9720 m north-oriented square patch centered at that point. This corresponds to a square patch of at least 6873 m x 6873 m in any orientation (45-degree worst case).
+* For each point within a segment, the corresponding Sentinel 2 tile generally has a UTM projection that gives the smallest north alignment error. However, some small segments have been eliminated when they can be wholly merged into into a larger segment with another UTM zone projection, somewhat increasing the north alignment error.
 
 Limitations:
-* Near the poles the segmentation does not reach all the way to the north or south edges of the north or south-most Sentinel 2 tiles. This means that the segmentation is not usable for visualisations that need to show all the data. That would require modificatons in the segmentation for those tiles.
+* Near the poles the segmentation does not reach all the way to the north or south edges of the north or south-most Sentinel 2 tiles. This means that the segmentation is not usable for visualisations that need to show all the data near the poles, without modification of the segmentation
 
-Caveats:
+Technical notes:
 * Segments are split at the antimeridian with id's appended by _0 and _1.
 
 Files:
 * `preferred_tiles.geojson` -- The segmentation as a GeoJSON. The properties:
     * `"id"`: Id of the segment, for example `"01CCV"` if there is a one-to-one correspondence between the segment and the Sentinel 2 tile of the same name, or `"01CDH_1"` if multiple segments point to the same tile `"01CDH"`.
     * `"tile_id"`: The Sentinel 2 tile, for example `"01CCV"`
-    * `"epsg"`: The EPSG number of the Sentinel 2 UTM tile, as a string, for example `"32701"`
-    * `"utm_area"`: The area of the segment, calculated in the Sentinel 2 tile UTM coordinate system, as a number in square meters, for example `514730427.83726776`.
+    * `"epsg"`: The EPSG number of the Sentinel 2 tile, as a string, for example `"32701"`, corresponding to a UTM zone.
+    * `"utm_area"`: The area of the segment, calculated with the vertices projected to the UTM coordinate system, as a number in square meters, for example `514730427.83726776`.
 
 ## Prerequisites
 
